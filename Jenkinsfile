@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/dornarajK/wweek5_LectureAssignment'
+                git 'https://github.com/dornarajK/wweek5_LectureAssignment.git'
             }
         }
 
