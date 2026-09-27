@@ -38,5 +38,31 @@ pipeline {
                 jacoco()
             }
         }
+
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t dornarajk/temperature-converter:latest .'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([
+                        usernamePassword(
+                                credentialsId: 'DockerHub',
+                                usernameVariable: 'DOCKER_USERNAME',
+                                passwordVariable: 'DOCKER_PASSWORD'
+                        )
+                ]) {
+                    bat 'echo %DOCKER_PASSWORD%| docker login -u %DOCKER_USERNAME% --password-stdin'
+                }
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                bat 'docker push dornarajk/temperature-converter:latest'
+            }
+        }
     }
 }
