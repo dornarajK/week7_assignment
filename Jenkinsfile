@@ -1,11 +1,20 @@
 pipeline {
+
     agent any
+
+    environment {
+        DB_HOST = 'localhost'
+        DB_PORT = '3306'
+        DB_NAME = 'temperature_converter'
+        DB_USER = 'root'
+        DB_PASSWORD = credentials('MariaDBPassword')
+    }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/dornarajK/wweek5_LectureAssignment.git'
+                git 'https://github.com/dornarajK/week7_assignment.git'
             }
         }
 
@@ -41,7 +50,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t dornarajk/temperature-converter:latest .'
+                bat 'docker build -t dornarajk/temperature-converter-javafx:latest .'
             }
         }
 
@@ -61,7 +70,7 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                bat 'docker push dornarajk/temperature-converter:latest'
+                bat 'docker push dornarajk/temperature-converter-javafx:latest'
             }
         }
     }

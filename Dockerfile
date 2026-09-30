@@ -1,11 +1,25 @@
-FROM maven:3.9.6-eclipse-temurin-17
+FROM maven:3.9.9-eclipse-temurin-17
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y \
+    libx11-6 \
+    libxext6 \
+    libxrender1 \
+    libxtst6 \
+    libxi6 \
+    libgtk-3-0 \
+    libgl1 \
+    libfontconfig1 \
+    libfreetype6 \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY pom.xml .
 
-COPY . /app
+RUN mvn dependency:go-offline
 
-RUN mvn package
+COPY src ./src
 
-CMD ["java", "-jar", "target/OTP1_inclass1_assignment_Dornaraj-1.0-SNAPSHOT.jar"]
+RUN mvn clean package -DskipTests
+
+CMD ["mvn", "javafx:run"]
