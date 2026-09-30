@@ -14,7 +14,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/dornarajK/week7_assignment.git'
+                echo 'Repository already checked out by Jenkins SCM'
             }
         }
 
